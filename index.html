@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Islami • O Vs O</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Cairo', 'Comic Neue', sans-serif;
+    }
+    body {
+      background: linear-gradient(145deg, #d9e8d4 0%, #c4dbc2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .islamic-container {
+      max-width: 1000px;
+      width: 100%;
+      background: #fffef7;
+      border-radius: 70px 70px 50px 50px;
+      border: 6px solid #edc28b;
+      box-shadow: 0 30px 30px rgba(52, 102, 64, 0.3);
+      padding: 30px 30px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* hiasan islami */
+    .islamic-container::before {
+      content: "☪️⭐☪️";
+      font-size: 40px;
+      position: absolute;
+      top: -5px;
+      left: 20px;
+      opacity: 0.15;
+      transform: rotate(-5deg);
+      white-space: nowrap;
+    }
+    .islamic-container::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, #f5e1b0 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    /* header judul */
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      color: #1b6532;
+      text-shadow: 3px 3px 0 #f8d68f;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* area O vs O (dua lingkaran skor) */
+    .score-circle-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px 40px;
+      flex-wrap: wrap;
+      margin: 20px 0 15px;
+      position: relative;
+      z-index: 5;
+    }
+    .circle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .circle .big-o {
+      width: 140px;
+      height: 140px;
+      background: #fef7d2;
+      border: 12px solid #d4a76a;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: #2b6b3b;
+      box-shadow: 0 15px 0 #a77d4b, 0 20px 20px #5c713b;
+      transition: 0.2s;
+      margin-bottom: 10px;
+    }
+    .circle span {
+      font-size: 2rem;
+      font-weight: 600;
+      background: #fbdd9d;
+      padding: 10px 30px;
+      border-radius: 50px;
+      border: 4px solid #bc914b;
+      color: #335f33;
+      box-shadow: 0 7px 0 #836e3e;
+    }
+    .vs {
+      font-size: 3rem;
+      font-weight: 800;
+      background: #ebc27c;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 6px solid #b78b4a;
+      color: #215021;
+      box-shadow: 0 8px 0 #6e532d;
+    }
+
+    /* dua kolom tim */
+    .teams-row {
+      display: flex;
+      gap: 30px;
+      margin-top: 40px;
+      position: relative;
+      z-index: 10;
+    }
+    .team-card {
+      flex: 1;
+      background: #f9f2dc;
+      border: 5px solid #bfd8b8;
+      border-radius: 60px 60px 30px 30px;
+      padding: 25px 20px 30px;
+      box-shadow: 0 18px 0 #7daa7d, 0 20px 20px #456745;
+    }
+    .team-left {
+      border-color: #f9b8b8;
+      box-shadow: 0 18px 0 #bc6f6f, 0 20px 20px #784e4e;
+    }
+    .team-right {
+      border-color: #aac9f0;
+      box-shadow: 0 18px 0 #6183a8, 0 20px 20px #35506b;
+    }
+    .team-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      font-size: 2.2rem;
+      font-weight: bold;
+      background: #fdeec9;
+      border-radius: 60px;
+      padding: 10px 20px;
+      margin-top: -50px;
+      margin-bottom: 25px;
+      border: 4px solid;
+    }
+    .team-left .team-header {
+      color: #b15252;
+      border-color: #b15252;
+    }
+    .team-right .team-header {
+      color: #3f77a3;
+      border-color: #3f77a3;
+    }
+    .team-header i {
+      font-size: 2.8rem;
+    }
+
+    .question-box {
+      background: #e1eac5;
+      border: 4px solid #598559;
+      border-radius: 50px;
+      padding: 15px 18px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #194d19;
+      margin-bottom: 20px;
+      min-height: 100px;
+      box-shadow: inset 0 -3px 0 #466446;
+      word-break: break-word;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .option-item {
+      background: #f5e1be;
+      border: 3px solid #7e9f6b;
+      border-radius: 40px;
+      padding: 10px 18px;
+      font-size: 1.2rem;
+      color: #1c431c;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.1s;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 5px 0 #6e8f5c;
+    }
+    .option-item.selected {
+      background: #c2e0a6;
+      border-color: #327a32;
+      box-shadow: 0 2px 0 #327a32;
+      transform: translateY(3px);
+    }
+    .option-item input[type="radio"] {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      border: 3px solid #3f6f3f;
+      margin-right: 15px;
+    }
+    .option-item input[type="radio"]:checked {
+      background: #1f8b1f;
+      border-color: #135013;
+      box-shadow: inset 0 0 0 4px white;
+    }
+
+    .answer-btn {
+      background: #fec382;
+      border: none;
+      font-size: 1.7rem;
+      font-weight: bold;
+      padding: 16px 20px;
+      border-radius: 60px;
+      width: 100%;
+      color: #2b5e2b;
+      border-bottom: 7px solid #b1662c;
+      cursor: pointer;
+      transition: 0.07s linear;
+      margin: 10px 0;
+      box-shadow: 0 5px 15px #bb874b;
+    }
+    .answer-btn:active {
+      border-bottom-width: 2px;
+      transform: translateY(5px);
+    }
+    .answer-btn:disabled {
+      opacity: 0.5;
+      border-bottom-width: 7px;
+      transform: none;
+      pointer-events: none;
+    }
+    .team-left .answer-btn {
+      background: #ffb4b4;
+      border-bottom-color: #ad4242;
+      color: #5d2b2b;
+    }
+    .team-right .answer-btn {
+      background: #aad1ff;
+      border-bottom-color: #3a72a5;
+      color: #1d3c5e;
+    }
+
+    .feedback {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 600;
+      min-height: 40px;
+      color: #2f6b2f;
+    }
+    .feedback.correct-feedback {
+      color: #1e7e1e;
+    }
+    .feedback.wrong-feedback {
+      color: #b34141;
+    }
+    .global-notif {
+      text-align: center;
+      font-size: 1.7rem;
+      background: #efe1c6;
+      border-radius: 50px;
+      padding: 12px 25px;
+      margin: 25px auto 10px;
+      border: 4px solid #b48b4b;
+      color: #1d5b1d;
+      width: fit-content;
+    }
+
+    footer {
+      text-align: center;
+      color: #3a7340;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="islamic-container">
+  <h1>⭐ KUIS ISLAMI ⭐</h1>
+
+  <!-- Dua lingkaran O Vs O -->
+  <div class="score-circle-area">
+    <div class="circle">
+      <div class="big-o" id="scoreLeftCircle">0</div>
+      <span>Tim A</span>
+    </div>
+    <div class="vs">VS</div>
+    <div class="circle">
+      <div class="big-o" id="scoreRightCircle">0</div>
+      <span>Tim B</span>
+    </div>
+  </div>
+
+  <!-- Dua kolom soal (Tim A kiri, Tim B kanan) -->
+  <div class="teams-row">
+    <!-- Tim A (kiri) -->
+    <div class="team-card team-left">
+      <div class="team-header">
+        <i class="fas fa-child"></i> Tim A <i class="fas fa-mosque"></i>
+      </div>
+      <div class="question-box" id="leftQuestion">Memuat soal...</div>
+      <div class="options" id="leftOptions"></div>
+      <button class="answer-btn" id="leftAnswerBtn"><i class="fas fa-paper-plane"></i> JAWAB TIM A</button>
+      <div class="feedback" id="leftFeedback"></div>
+    </div>
+
+    <!-- Tim B (kanan) -->
+    <div class="team-card team-right">
+      <div class="team-header">
+        <i class="fas fa-child"></i> Tim B <i class="fas fa-moon"></i>
+      </div>
+      <div class="question-box" id="rightQuestion">Memuat soal...</div>
+      <div class="options" id="rightOptions"></div>
+      <button class="answer-btn" id="rightAnswerBtn"><i class="fas fa-paper-plane"></i> JAWAB TIM B</button>
+      <div class="feedback" id="rightFeedback"></div>
+    </div>
+  </div>
+
+  <!-- notifikasi global -->
+  <div class="global-notif" id="globalNotif">✨ Ayo semangat, jawab dengan jujur! ✨</div>
+  <footer> ☪️  Kisah teladan 30 soal  ☪️ </footer>
+</div>
+
+<script>
+  // =================== DATA SOAL (30 SOAL) ===================
+  const questions = [
+    { q: "1. Penyakit apa yang diderita oleh tokoh pertama sehingga ia berada jauh dari warga?", a: "A. Sakit gigi", b: "B. Penyakit kusta", c: "C. Pusing kepala", d: "D. Sakit mata", correct: "B" },
+    { q: "2. Apa yang menyebabkan si botak merasa sangat sedih?", a: "A. Tidak punya baju", b: "B. Kepalanya tidak ditumbuhi rambut", c: "C. Tidak punya teman bermain", d: "D. Rumahnya jauh", correct: "B" },
+    { q: "3. Apa kekurangan fisik yang dialami oleh tokoh ketiga?", a: "A. Telinganya tuli", b: "B. Tangannya sakit", c: "C. mata buta", d: "D. Kakinya pincang", correct: "C" },
+    { q: "4. Mengapa si buta sering merasa sedih saat pulang dari pasar?", a: "A. Karena rotinya tidak enak", b: "B. Karena sering ditipu orang saat membayar uang", c: "C. Karena pasar sangat ramai", d: "D. Karena dia tidak suka belanja", correct: "B" },
+    { q: "5. Ke mana orang ketiga tersebut pergi untuk meminta pertolongan?", a: "A. Mencari tabib (dokter)", b: "B. Pergi ke pasar", c: "C. Pergi ke hutan", d: "D. Mencari raja", correct: "A" },
+    { q: "6. Siapakah sosok yang sebenarnya datang membantu mereka dengan menyamar?", a: "A. Seorang musafir biasa", b: "B. Malaikat yang diutus Allah", c: "C. Seorang pedagang kaya", d: "D. Seorang prajurit", correct: "B" },
+    { q: "7. Apa yang dilakukan malaikat saat pertama kali bertemu si kusta?", a: "A. Memberinya makan", b: "B. Memberikan obat dan menyembuhkannya", c: "C. Mengusirnya", d: "D. Memberinya uang emas", correct: "B" },
+    { q: "8. Setelah si botak sembuh, apa yang tumbuh di kepalanya?", a: "A. Topi yang indah", b: "B. Rambut yang bagus", c: "C. Mahkota emas", d: "D. Bunga-bunga", correct: "B" },
+    { q: "9. Harta apa yang diberikan kepada si kusta untuk dipelihara?", a: "A. Sepuluh ekor unta", b: "B. Seratus ekor ayam", c: "C. Seekor kucing", d: "D. Sepuluh ekor kuda", correct: "A" },
+    { q: "10. Hewan apa yang diberikan kepada si botak agar ia menjadi kaya?", a: "A. Kambing", b: "B. Sapi yang sedang bunting", c: "C. Gajah", d: "D. Ikan di kolam", correct: "B" },
+    { q: "11. Berapa banyak harta yang diberikan kepada si buta?", a: "A. Unta yang sangat banyak", b: "B. Sapi yang besar", c: "C. Kambing yang sedang bunting", d: "D. Kebun kurma", correct: "C" },
+    { q: "12. Setelah beberapa tahun, bagaimana keadaan ekonomi ketiga orang tersebut?", a: "A. Tetap miskin", b: "B. Menjadi sangat kaya raya", c: "C. Menjadi pedagang di luar negeri", d: "D. Hartanya habis dicuri", correct: "B" },
+    { q: "13. Malaikat datang kembali kepada mereka untuk menguji apa?", a: "A. Kekuatan fisik mereka", b: "B. Kepintaran mereka", c: "C. Kesyukuran dan kejujuran mereka", d: "D. Kecepatan mereka berlari", correct: "C" },
+    { q: "14. Malaikat menyamar menjadi apa saat mendatangi mereka kembali?", a: "A. Menjadi raja yang perkasa", b: "B. Menjadi pengemis yang memiliki kekurangan seperti mereka dulu", c: "C. Menjadi pedagang hewan", d: "D. Menjadi anak kecil", correct: "B" },
+    { q: "15. Apa alasan si kusta saat menolak membantu pengemis yang datang?", a: "A. Dia bilang sedang tidak punya uang", b: "B. Dia bilang hartanya adalah warisan dari ayahnya", c: "C. Dia bilang tidaknya sedang sakit", d: "D. Dia bilang tidak mengenal pengemis itu", correct: "B" },
+    { q: "16. Sikap apa yang ditunjukkan si kusta dan si botak terhadap pengemis?", a: "A. Sangat ramah dan baik", b: "B. Sombong dan kikir (pelit)", c: "C. setengah Memberikan hartanya", d: "D. Mengajak pengemis makan bersama", correct: "B" },
+    { q: "17. Siapa satu-satunya orang yang mengakui bahwa hartanya adalah pemberian Allah?", a: "A. Si mantan kusta", b: "B. Si mantan botak", c: "C. Si mantan buta", d: "D. Semua orang mengakui", correct: "C" },
+    { q: "18. Apa yang ditawarkan si buta kepada pengemis yang mendatangi rumahnya?", a: "A. Menyyuruh pengemis pergi", b: "B. Memberikan roti sisa", c: "C. Mempersilakan mengambil harta sebanyak yang dibutuhkan", d: "D. Memberikan satu koin perak", correct: "C" },
+    { q: "19. Mengapa si buta sangat dermawan kepada pengemis tersebut?", a: "A. Karena dia punya terlalu banyak uang", b: "B. Karena dia ingat dulu dia juga susah dan Allah yang menolongnya", c: "C. Karena dia ingin dipuji orang lain", d: "D. Karena dia takut pada pengemis itu", correct: "B" },
+    { q: "20. Apa yang dikatakan malaikat kepada si kusta yang berbohong?", a: "A. 'Semoga hartamu makin banyak'", b: "B. 'Jika kamu berdusta, semoga Allah mengembalikanmu ke kondisi semula'", c: "C. 'Kamu orang yang sangat rajin'", d: "D. 'Terima kasih atas bantuannya'", correct: "B" },
+    { q: "21. Apa yang terjadi pada hewan ternak si kusta dan si botak di akhir cerita?", a: "A. Dijual untuk membangun istana", b: "B. Semuanya mati dan musnah karena mereka kufur", c: "C. Bertambah semakin banyak", d: "D. Diberikan kepada warga desa", correct: "B" },
+    { q: "22. Kondisi fisik apa yang kembali dialami si kusta dan si botak?", a: "A. Menjadi semakin sehat", b: "B. Kembali menjadi sakit dan kekurangan seperti dulu", c: "C. Menjadi lebih kuat", d: "D. Tidak terjadi apa-apa", correct: "B" },
+    { q: "23. Apa arti dari sifat 'Kufur Nikmat'?", a: "A. Selalu berbagi dengan teman", b: "B. Tidak mengakui dan tidak bersyukur atas pemberian Allah", c: "C. Suka membantu orang sakit", d: "D. Rajin beribadah di masjid", correct: "B" },
+    { q: "24. Bagaimana akhir kisah si buta yang pandai bersyukur?", a: "A. Hartanya habis karena diberikan orang", b: "B. Dia menjadi sedih kembali", c: "C. Allah rida kepadanya dan tetap menjaga kenikmatan-Nya", d: "D. Dia pergi meninggalkan desanya", correct: "C" },
+    { q: "25. Mengapa kita tidak boleh sombong dengan kelebihan yang kita miliki?", a: "A. Karena kelebihan itu adalah titipan dan ujian dari Allah", b: "B. Karena orang lain akan iri", c: "C. Karena nanti kita akan lelah", d: "D. Karena sombong itu melelahkan", correct: "A" },
+    { q: "26. Apa yang harus kita ucapkan saat mendapatkan nikmat dari Allah?", a: "A. Subhanallah", b: "B. Alhamdulillah", c: "C. Astagfirullah", d: "D. Allahu Akbar", correct: "B" },
+    { q: "27. Sesuai isi video, siapa sebenarnya yang memberikan kesembuhan bagi manusia?", a: "A. Malaikat Sendiri", b: "B. Harta yang banyak", c: "C. Allah SWT", d: "D. Tabib yang pintar", correct: "C" },
+    { q: "28. Dalam Surah Ibrahim ayat 7, apa janji Allah jika kita bersyukur?", a: "A. Allah akan mengurangi beban kita", b: "B. Allah akan menambah kenikmatan-Nya kepada kita", c: "C. Allah akan menjadikan kita raja", d: "D. Allah akan memberi kita banyak mainan", correct: "B" },
+    { q: "29. Apa ancaman Allah dalam Surat Ibrahim ayat 7 bagi orang yang kufur?", a: "A. Tidak akan punya teman", b: "B. Azab Allah sangat pedih", c: "C. Akan ketakutan terus", d: "D. Tidak ada ancaman", correct: "B" },
+    { q: "30. Apa pelajaran paling utama yang bisa kita petik dari video tersebut?", a: "A. Menjadi kaya itu harus dengan kerja keras saja", b: "B. Kita harus selalu bersyukur dalam keadaan sulit maupun senang", c: "C. Tidak perlu berobat jika sedang sakit", d: "D. Memelihara hewan itu sangat sulit", correct: "B" }
+  ];
+
+  // ========== STATE ==========
+  let currentIndex = 0;
+  let scoreLeft = 0, scoreRight = 0;
+  let lock = false; // kunci saat pergantian soal
+
+  // elemen DOM
+  const leftQ = document.getElementById('leftQuestion');
+  const rightQ = document.getElementById('rightQuestion');
+  const leftOpt = document.getElementById('leftOptions');
+  const rightOpt = document.getElementById('rightOptions');
+  const leftFeed = document.getElementById('leftFeedback');
+  const rightFeed = document.getElementById('rightFeedback');
+  const leftBtn = document.getElementById('leftAnswerBtn');
+  const rightBtn = document.getElementById('rightAnswerBtn');
+  const globalNotif = document.getElementById('globalNotif');
+  const scoreLeftCircle = document.getElementById('scoreLeftCircle');
+  const scoreRightCircle = document.getElementById('scoreRightCircle');
+
+  function updateScoresUI() {
+    scoreLeftCircle.innerText = scoreLeft;
+    scoreRightCircle.innerText = scoreRight;
+  }
+
+  // reset pilihan di kedua tim
+  function resetSelections() {
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.querySelectorAll('.option-item').forEach(opt => opt.classList.remove('selected'));
+  }
+
+  // nonaktifkan/aktifkan tombol jawab dan radio
+  function setButtonsEnabled(enabled) {
+    leftBtn.disabled = !enabled;
+    rightBtn.disabled = !enabled;
+    if (!enabled) {
+      leftOpt.style.pointerEvents = 'none';
+      rightOpt.style.pointerEvents = 'none';
+    } else {
+      leftOpt.style.pointerEvents = 'auto';
+      rightOpt.style.pointerEvents = 'auto';
+    }
+  }
+
+  // memuat soal ke kedua box
+  function loadQuestionToBoxes(index) {
+    if (index >= questions.length) {
+      leftQ.innerText = '🏁 SELESAI 🏁';
+      rightQ.innerText = '🏁 SELESAI 🏁';
+      leftOpt.innerHTML = '';
+      rightOpt.innerHTML = '';
+      setButtonsEnabled(false);
+      globalNotif.innerText = 'Alhamdulillah, kuis telah usai!';
+      return;
+    }
+    const soal = questions[index];
+    leftQ.innerText = soal.q;
+    rightQ.innerText = soal.q;
+
+    const letters = ['A', 'B', 'C', 'D'];
+    const opts = [soal.a, soal.b, soal.c, soal.d];
+    let htmlLeft = '', htmlRight = '';
+    opts.forEach((text, i) => {
+      htmlLeft += `<label class="option-item" data-opt="${letters[i]}">
+        <input type="radio" name="leftOpt" value="${letters[i]}"> ${text}
+      </label>`;
+      htmlRight += `<label class="option-item" data-opt="${letters[i]}">
+        <input type="radio" name="rightOpt" value="${letters[i]}"> ${text}
+      </label>`;
+    });
+    leftOpt.innerHTML = htmlLeft;
+    rightOpt.innerHTML = htmlRight;
+
+    // event listener untuk visual selected
+    document.querySelectorAll('#leftOptions .option-item').forEach(opt => {
+      opt.addEventListener('click', function(e) {
+        if (lock) return;
+        document.querySelectorAll('#leftOptions .option-item').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        this.querySelector('input[type="radio"]').checked = true;
+      });
+    });
+    document.querySelectorAll('#rightOptions .option-item').forEach(opt => {
+      opt.addEventListener('click', function(e) {
+        if (lock) return;
+        document.querySelectorAll('#rightOptions .option-item').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+        this.querySelector('input[type="radio"]').checked = true;
+      });
+    });
+
+    leftFeed.innerHTML = '';
+    rightFeed.innerHTML = '';
+    globalNotif.innerText = `Soal ${index+1} dari ${questions.length}`;
+    setButtonsEnabled(true);
+    lock = false;
+  }
+
+  // lanjut ke soal berikutnya
+  function nextQuestion() {
+    lock = true;
+    setButtonsEnabled(false);
+    currentIndex++;
+    if (currentIndex < questions.length) {
+      loadQuestionToBoxes(currentIndex);
+    } else {
+      loadQuestionToBoxes(currentIndex);
+    }
+  }
+
+  // menangani jawaban
+  async function handleAnswer(team) { // 'left' atau 'right'
+    if (lock) {
+      globalNotif.innerText = '⏳ Mohon tunggu, soal sedang berganti...';
+      return;
+    }
+    let feedbackEl = team === 'left' ? leftFeed : rightFeed;
+    let optContainer = team === 'left' ? leftOpt : rightOpt;
+    let selectedRadio = optContainer.querySelector('input[type="radio"]:checked');
+    if (!selectedRadio) {
+      feedbackEl.innerHTML = '❌ Pilih jawaban dulu!';
+      feedbackEl.classList.add('wrong-feedback');
+      feedbackEl.classList.remove('correct-feedback');
+      return;
+    }
+    let jawaban = selectedRadio.value;
+    let kunci = questions[currentIndex].correct;
+    let benar = (jawaban === kunci);
+
+    if (benar) {
+      if (team === 'left') {
+        scoreLeft++;
+        feedbackEl.innerHTML = '✅ BENAR! +1 Tim A';
+      } else {
+        scoreRight++;
+        feedbackEl.innerHTML = '✅ BENAR! +1 Tim B';
+      }
+      feedbackEl.classList.add('correct-feedback');
+      feedbackEl.classList.remove('wrong-feedback');
+      globalNotif.innerText = '🎉 Jawaban benar! Memuat soal berikutnya...';
+      updateScoresUI();
+
+      lock = true;
+      setButtonsEnabled(false);
+      setTimeout(() => {
+        nextQuestion();
+      }, 800);
+    } else {
+      feedbackEl.innerHTML = '❌ Salah, coba lagi!';
+      feedbackEl.classList.add('wrong-feedback');
+      feedbackEl.classList.remove('correct-feedback');
+      // reset pilihan di tim itu
+      optContainer.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+      optContainer.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+      globalNotif.innerText = '💡 Jawaban belum tepat, semangat!';
+    }
+  }
+
+  // event listener tombol
+  leftBtn.addEventListener('click', () => handleAnswer('left'));
+  rightBtn.addEventListener('click', () => handleAnswer('right'));
+
+  // inisialisasi
+  loadQuestionToBoxes(0);
+  updateScoresUI();
+</script>
+</body>
+</html>
